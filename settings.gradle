@@ -1,0 +1,3 @@
+rootProject.name='eInvoice'
+include ':einvoice'
+include ':einvoice:demo'
