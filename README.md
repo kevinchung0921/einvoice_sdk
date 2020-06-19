@@ -1,4 +1,5 @@
 [ ![Download](https://api.bintray.com/packages/kevinchung0921/Maven/einvoice_sdk/images/download.svg?version=1.3) ](https://bintray.com/kevinchung0921/Maven/einvoice_sdk/1.3/link)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## 電子發票 SDK
 這是一個可以用來開發電子發票應用的SDK，實做了 [電子發票應用API規格 1.7 版](https://www.einvoice.nat.gov.tw/home/DownLoad?fileName=1510206773173_0.pdf)，提供實體發票/載具發票查詢，一維條碼/QR Code 資料解析功能。
@@ -55,6 +56,7 @@ dependencies {
   val detail = invSdk.getInvDetail(invoice!!)
 ```
 ### 整合 zxing barcode scanner 來取得發票條碼
+透過整合 zxing library，再加上幾行程式就可以輕鬆的取得紙本發票的條碼。
 將 zxing 加入 depenencies 區塊
 ```groovy
   dependencies {
