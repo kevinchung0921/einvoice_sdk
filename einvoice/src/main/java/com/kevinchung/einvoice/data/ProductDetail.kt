@@ -21,11 +21,11 @@ data class ProductDetail (
     ) {
 
     constructor(json:JSONObject):this (
-        json.getInt(Const.RSP_ROW_NUM),
-        json.getString(Const.RSP_DESCRIPTION),
-        json.getDouble(Const.RSP_QUANTITY),
-        json.getDouble(Const.RSP_UNIT_PRICE),
-        json.getDouble(Const.RSP_AMOUNT)
+        json.optInt(Const.RSP_ROW_NUM, 0),
+        json.optString(Const.RSP_DESCRIPTION,""),
+        json.optDouble(Const.RSP_QUANTITY, 1.0),
+        json.optDouble(Const.RSP_UNIT_PRICE, 0.0),
+        json.optDouble(Const.RSP_AMOUNT, 0.0)
     )
 
     fun toHashMap():HashMap<String,String> {
