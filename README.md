@@ -29,7 +29,7 @@ dependencies {
 
 ### 查詢載具發票表頭
 
-查詢時間區間內的載具發票表頭(CarrierHeader)[https://github.com/kevinchung0921/einvoice_sdk/blob/master/einvoice/src/main/java/com/kevinchung/einvoice/data/CarrierHeader.kt]，需要設定要查詢的**載具條碼**以及**認證碼**，同時可以指定是否只顯示中獎發票
+查詢時間區間內的載具發票表頭[CarrierHeader](https://github.com/kevinchung0921/einvoice_sdk/blob/master/einvoice/src/main/java/com/kevinchung/einvoice/data/CarrierHeader.kt) ，需要設定要查詢的**載具條碼**以及**認證碼**，同時可以指定是否只顯示中獎發票
 
 ```kotlin
   val now = Date()
