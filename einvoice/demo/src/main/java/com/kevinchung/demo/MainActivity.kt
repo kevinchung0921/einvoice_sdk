@@ -79,8 +79,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupEInvSdk() {
         invSdk = EInvoice(API_KEY)
-        if(invSdk == null)
-            Log.e(TAG, "Error!!")
         invSdk.enableLog = true
 
     }
@@ -112,11 +110,11 @@ class MainActivity : AppCompatActivity() {
                     return
 
                 val invoice = Invoice(result.formatName, result.contents)
-                invSdk?.run {
+                invSdk.run {
                     Thread {
                         Looper.prepare()
 
-                        getInvDetail(invoice!!)?.run{
+                        getInvDetail(invoice)?.run{
                             handler.sendEmptyMessage(MSG_SHOW_PROGRESS)
                             Log.d(TAG,"adding serial $invNumber")
                             if(isInvoiceListNotExisted(invNumber)) {

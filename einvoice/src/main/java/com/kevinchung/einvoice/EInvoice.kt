@@ -11,6 +11,8 @@ import com.kevinchung.einvoice.data.InvoiceDetail
 import com.kevinchung.einvoice.interfaces.CarrierHeadersListener
 import com.kevinchung.einvoice.interfaces.InvoiceDetailsListener
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Response
 import java.net.URLEncoder
 import java.text.SimpleDateFormat
 import java.util.*
@@ -97,7 +99,7 @@ class EInvoice {
         onlyWin    :Boolean
     ):List<CarrierHeader>? {
         
-        val list = ArrayList<CarrierHeader>()
+
 
         val sdf = SimpleDateFormat("yyyy/MM/dd")
         val strStart = sdf.format(Date(start))
@@ -105,10 +107,25 @@ class EInvoice {
 
         LOG.d("query period $strStart to $strEnd")
 
-        val body = StringBuilder()
-        val timeStamp: String = genTimeStamp()
 
+        val timeStamp: String = genTimeStamp()
         try {
+
+            val apiService = EInvoiceApiService.createService(EInvApiInterface::class.java)
+
+            return apiService.getCarrierHeader(
+                startDate = strStart,
+                endDate = strEnd,
+                cardNo = URLEncoder.encode(barcode,"UTF-8"),
+                cardEncrypt = URLEncoder.encode(password, "UTF-8"),
+                onlyWin = if(onlyWin) "Y" else "N",
+                uuid = uuid,
+                appId = apiKey,
+                timeStamp = timeStamp
+            ).execute().body()?.details
+
+            val list = ArrayList<CarrierHeader>()
+            val body = StringBuilder()
             /*
              * version=0.1&
              * cardType=3J0002&
@@ -166,7 +183,7 @@ class EInvoice {
             LOG.e("getCarrierHeader Error:$e")
             return null
         }
-        return list
+        return null
     }
 
     /**

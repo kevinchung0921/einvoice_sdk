@@ -9,18 +9,18 @@ object Const {
     const val EINV_CARRIER_DETAIL_VERSION = "0.5"
 
 
-    private const val API_EINV_HOST = "https://api.einvoice.nat.gov.tw"
-    const val API_EINV_PAPER = "$API_EINV_HOST/PB2CAPIVAN/invapp/InvApp"
-    const val API_EINV_CARRIER = "$API_EINV_HOST/PB2CAPIVAN/invServ/InvServ"
+    const val API_EINV_HOST = "https://api.einvoice.nat.gov.tw"
+    const val API_EINV_PAPER = "/PB2CAPIVAN/invapp/InvApp"
+    const val API_EINV_CARRIER = "/PB2CAPIVAN/invServ/InvServ"
 
     const val API_EINV_QUERY_BARCODE = "$API_EINV_HOST/PB2CAPIVAN/Carrier/AppGetBarcode"
 
     const val API_EINV_REGISTER_BLANK =
-        "$API_EINV_HOST/PB2CAPIVAN/APIService/generalCarrierRegBlank"
+        "/PB2CAPIVAN/APIService/generalCarrierRegBlank"
     const val API_EINV_CARRIER_BLANK =
-        "$API_EINV_HOST/PB2CAPIVAN/APIService/carrierLinkBlank"
+        "/PB2CAPIVAN/APIService/carrierLinkBlank"
     const val API_EINV_BANK_BLINK =
-        "$API_EINV_HOST/PB2CAPIVAN/APIService/carrierBankAccBlank"
+        "/PB2CAPIVAN/APIService/carrierBankAccBlank"
 
     const val EINV_ACT_GET_BARCODE = "getBarcode"
 
