@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.zxing.integration.android.IntentIntegrator
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import com.journeyapps.barcodescanner.CaptureActivity
+
 import com.kevinchung.einvoice.EInvoice
 import com.kevinchung.einvoice.data.Invoice
 import com.kevinchung.einvoice.data.InvoiceDetail
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val TAG = "demo"
-        private const val API_KEY = ""  // fill API key before use
+        private const val API_KEY = BuildConfig.EINVOICE_API_KEY  // fill API key before use
         private const val MSG_ADD_ITEM = 0
         private const val MSG_SHOW_PROGRESS = 1
         private const val MSG_HIDE_PROGRESS = 2
@@ -116,10 +117,11 @@ class MainActivity : AppCompatActivity() {
 
                         getInvDetail(invoice)?.run{
                             handler.sendEmptyMessage(MSG_SHOW_PROGRESS)
-                            Log.d(TAG,"adding serial $invNumber")
-                            if(isInvoiceListNotExisted(invNumber)) {
+                            Log.d(TAG,"adding serial $invNum")
+                            if(isInvoiceListNotExisted(invNum)) {
                                 Log.d(TAG,"serial not exist, add it")
                                 invoiceList.add(this)
+
                                 Log.d(TAG,"list size:${invoiceList.size}")
                                 val msg = Message()
                                 msg.what = MSG_ADD_ITEM
@@ -141,7 +143,7 @@ class MainActivity : AppCompatActivity() {
     // check if the invoice serial already in invoiceList
     private fun isInvoiceListNotExisted(serial: String):Boolean {
         for(detail in invoiceList) {
-            if(serial == detail.invNumber)
+            if(serial == detail.invNum)
                 return false
         }
         return true
@@ -178,7 +180,7 @@ class MainActivity : AppCompatActivity() {
             headers?.let{
                 for(header in it) {
                     val detail = invSdk.getCarrierDetail(header, barcode!!, password!!)
-                    if(detail != null && isInvoiceListNotExisted(detail.invNumber)) {
+                    if(detail != null && isInvoiceListNotExisted(detail.invNum)) {
                         invoiceList.add(detail)
                         val msg = Message()
                         msg.what = MSG_ADD_ITEM

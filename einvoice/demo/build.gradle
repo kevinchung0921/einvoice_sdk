@@ -1,7 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-
+// remove this in your project
+apply from : 'key.gradle'
 android {
     compileSdkVersion 28
     buildToolsVersion "29.0.2"
@@ -10,9 +11,9 @@ android {
         applicationId "com.kevinchung.demo"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
-
+        versionCode 2
+        versionName "1.1"
+        buildConfigField "String","EINVOICE_API_KEY", "\"$EINVOICE_API_KEY\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

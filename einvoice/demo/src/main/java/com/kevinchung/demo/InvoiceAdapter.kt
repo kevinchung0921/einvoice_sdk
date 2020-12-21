@@ -27,8 +27,12 @@ class InvoiceAdapter(
     }
 
     override fun getChildCount(groupPosition: Int): Int {
-        Log.d(TAG,"child count: ${adapterData[groupPosition].details.size} at $groupPosition")
-        return adapterData[groupPosition].details.size
+        return if(groupPosition in 0 until adapterData.size) {
+            Log.d(TAG, "child count: ${adapterData[groupPosition].details.size} at $groupPosition")
+            adapterData[groupPosition].details.size
+        } else {
+            0
+        }
     }
 
     override fun getChildId(groupPosition: Int, childPosition: Int): Long {
@@ -78,7 +82,7 @@ class InvoiceAdapter(
         y: Int,
         expand: Boolean
     ): Boolean {
-        return adapterData[groupPosition].details.size > 0
+        return adapterData[groupPosition].details.isNotEmpty()
     }
 
     init {
@@ -103,11 +107,20 @@ class InvoiceAdapter(
             mExpandState.flags = flags
         }
         fun onBindView(data: InvoiceDetail) {
-            serial.text = data.invNumber
-            time.text = data.date+" "+data.invTime
+            serial.text = data.invNum
+            time.text = data.invDate+" "+data.invoiceTime
             sellerName.text = data.sellerName
             try {
-                amount.text = "" + data.amount.toInt()
+                // paper invoice may not contain amount field, need to calculate from
+                // the sum of details list
+                if(data.amount.toInt() == 0) {
+                    var totalAmount = 0.0
+                    for(d in data.details) {
+                        totalAmount += d.amount
+                    }
+                    amount.text = "" + totalAmount.toInt()
+                } else
+                    amount.text = "" + data.amount.toInt()
             } catch(e:Exception){
                 e.printStackTrace()
             }

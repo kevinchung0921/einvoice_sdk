@@ -1,7 +1,7 @@
 package com.kevinchung.einvoice.data
 
 import com.kevinchung.einvoice.Const
-import org.json.JSONObject
+
 /*
  * "v":"<版本號碼>",
  * "code":"<訊息回應碼>",
@@ -19,51 +19,22 @@ import org.json.JSONObject
 * */
 
 data class InvoiceDetail(
-    val version     :String = "",
-    val code        :Int = Const.RSP_OK,
-    val msg         :String = "",
-    val invNumber   :String = "",
-    val date        :String = "",
-    val sellerName  :String = "",
-    val status      :String = "",
-    val invPeriod   :String = "",
-    val sellerBan   :String = "",
-    val sellerAddr  :String = "",
-    val invTime     :String = "",
-    val buyerBan    :String = "",
-    val currency    :String = "",
-    val amount      :Double = 0.0 // only for carrier invoice
+    val v               :String = "",
+    val code            :Int = Const.RSP_OK,
+    val msg             :String = "",
+    val invNum          :String = "",
+    val invDate         :String = "",
+    val sellerName      :String = "",
+    val invStatus       :String = "",
+    val invPeriod       :String = "",
+    val sellerBan       :String = "",
+    val sellerAddress   :String = "",
+    val invoiceTime     :String = "",
+    val buyerBan        :String = "",
+    val currency        :String = "",
+    val amount          :Double = 0.0, // only for carrier invoice
+    val details         :List<ProductDetail>
 ) {
-    val details: ArrayList<ProductDetail> = ArrayList()
-
-    constructor(json:JSONObject):this(
-        json.optString(Const.RSP_VERSION),
-        json.getInt(Const.RSP_CODE),
-        json.getString(Const.RSP_MSG),
-        json.optString(Const.RSP_INV_NUM,""),
-        json.optString(Const.RSP_INV_DATE,""),
-        json.optString(Const.RSP_SELLER_NAME,""),
-        json.optString(Const.RSP_INV_STATUS,""),
-        json.optString(Const.RSP_INV_PERIOD, ""),
-        json.optString(Const.RSP_SELLER_BAN, ""),
-        json.optString(Const.RSP_SELLER_ADDRESS, ""),
-        json.optString(Const.RSP_INVOICE_TIME, ""),
-        json.optString(Const.RSP_BUYER_BAN, ""),
-        json.optString(Const.RSP_CURRENCY, ""),
-        json.optDouble(Const.RSP_AMOUNT, 0.0)
-
-    ) {
-        if(json.has(Const.RSP_DETAILS)) {
-            val array = json.getJSONArray(Const.RSP_DETAILS)
-            for (detail in 0 until array.length()) {
-                details.add(
-                    ProductDetail(
-                        array.getJSONObject(detail)
-                    )
-                )
-            }
-        }
-    }
 
     /**
      * Generate the Map type data structure
@@ -71,18 +42,18 @@ data class InvoiceDetail(
      */
     fun toHashMap():HashMap<String,String> {
         val map = HashMap<String,String>()
-        map[Const.RSP_VERSION] = version
+        map[Const.RSP_VERSION] = v
         map[Const.RSP_CODE] = ""+code
         map[Const.RSP_MSG] = msg
-        map[Const.RSP_INV_NUM] = invNumber
-        map[Const.RSP_INV_DATE] = date
-        map[Const.RSP_INVOICE_TIME] = invTime
+        map[Const.RSP_INV_NUM] = invNum
+        map[Const.RSP_INV_DATE] = invDate
+        map[Const.RSP_INVOICE_TIME] = invoiceTime
         map[Const.RSP_SELLER_NAME] = sellerName
         map[Const.RSP_SELLER_BAN] = sellerBan
-        map[Const.RSP_SELLER_ADDRESS] = sellerAddr
+        map[Const.RSP_SELLER_ADDRESS] = sellerAddress
         map[Const.RSP_BUYER_BAN] = buyerBan
         map[Const.RSP_AMOUNT] = amount.toString()
-        map[Const.RSP_INV_STATUS] = status
+        map[Const.RSP_INV_STATUS] = invStatus
         map[Const.RSP_CURRENCY] = currency
         return map
     }
