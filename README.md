@@ -4,6 +4,12 @@
 ## 電子發票 SDK
 這是一個可以用來開發電子發票應用的SDK，實做了 [電子發票應用API規格 1.7 版](https://www.einvoice.nat.gov.tw/home/DownLoad?fileName=1510206773173_0.pdf)，提供實體發票/載具發票查詢，一維條碼/QR Code 資料解析功能。
 
+
+![Demo App screen 1](https://drive.google.com/uc?export=view&id=1-2JvgN3avYLnTfmDb2kjp8DPrHg9eveD)
+
+![Demo App screen 2](https://drive.google.com/uc?export=view&id=172hO_1-Q8v70Exp7RipYOTotTtvK7SXu)
+
+
 ## 使用方法：
 
 ### 添加dependency到build.gradle：
@@ -23,7 +29,7 @@ dependencies {
 
 ### 查詢載具發票表頭
 
-查詢時間區間內的載具發票，需要設定要查詢的**載具條碼**以及**認證碼**，同時可以指定是否只顯示中獎發票
+查詢時間區間內的載具發票表頭[CarrierHeader](https://github.com/kevinchung0921/einvoice_sdk/blob/master/einvoice/src/main/java/com/kevinchung/einvoice/data/CarrierHeader.kt) ，需要設定要查詢的**載具條碼**以及**認證碼**，同時可以指定是否只顯示中獎發票
 
 ```kotlin
   val now = Date()
@@ -37,13 +43,14 @@ dependencies {
 ```
 
 ### 查詢載具發票內容
-使用載具表頭物件來查詢載具發票的詳細內容
+使用載具表頭物件來查詢載具發票的詳細內容 [InvoiceDetail](https://github.com/kevinchung0921/einvoice_sdk/blob/master/einvoice/src/main/java/com/kevinchung/einvoice/data/InvoiceDetail.kt)
 ```kotlin
   // 回傳 InvoiceDetail 物件，或是 null 如果發生錯誤
   val detail = invSdk.getCarrierDetail(header, USER_BARCODE, USER_PASS)
 ```
 
 ### 解析紙本發票條碼
+取得紙本發票條碼內容 [Invoice](https://github.com/kevinchung0921/einvoice_sdk/blob/master/einvoice/src/main/java/com/kevinchung/einvoice/data/Invoice.kt)
 ```kotlin
   // 指定條碼格式，可以是QR Code(FORMAT_QR_CODE)或是一維條碼(FORMAT_CODE_39)
   // 成功的話回傳 Invoice 物件
