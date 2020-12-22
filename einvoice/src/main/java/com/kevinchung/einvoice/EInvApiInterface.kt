@@ -5,6 +5,7 @@ import com.kevinchung.einvoice.Const.API_EINV_PAPER
 import com.kevinchung.einvoice.Const.EINV_ACTION
 import com.kevinchung.einvoice.Const.EINV_ACTION_CARRIER_DETAIL
 import com.kevinchung.einvoice.Const.EINV_ACTION_CARRIER_HEADER
+import com.kevinchung.einvoice.Const.EINV_ACTION_WIN_LIST
 import com.kevinchung.einvoice.Const.EINV_APP_ID
 import com.kevinchung.einvoice.Const.EINV_CARD_CARRIER_BARCODE
 import com.kevinchung.einvoice.Const.EINV_CARD_ENCRYPT
@@ -29,9 +30,11 @@ import com.kevinchung.einvoice.Const.EINV_TYPE
 import com.kevinchung.einvoice.Const.EINV_UUID_0_4
 import com.kevinchung.einvoice.Const.EINV_UUID_0_5
 import com.kevinchung.einvoice.Const.EINV_VERSION
+import com.kevinchung.einvoice.Const.EINV_WINLIST_VERSION
 import com.kevinchung.einvoice.data.CarrierHeader
 import com.kevinchung.einvoice.data.CarrierHeaderRsp
 import com.kevinchung.einvoice.data.InvoiceDetail
+import com.kevinchung.einvoice.data.WinList
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -84,4 +87,14 @@ interface EInvApiInterface {
         @Query(EINV_RANDOM) random: String,
         @Query(EINV_APP_ID) appId: String
     ):Call<InvoiceDetail>
+
+    @POST(API_EINV_PAPER)
+    fun getWinList(
+        @Query(EINV_VERSION) ver: String = EINV_WINLIST_VERSION,
+        @Query(EINV_ACTION) action: String = EINV_ACTION_WIN_LIST,
+        @Query(EINV_INV_TERM) term: String,
+        @Query(EINV_UUID_0_4) uuid: String,
+        @Query(EINV_APP_ID) appId:String
+    ):Call<WinList>
+
 }

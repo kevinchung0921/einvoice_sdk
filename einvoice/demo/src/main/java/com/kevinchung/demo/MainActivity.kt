@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         private const val MSG_HIDE_PROGRESS = 2
     }
 
+    private val uuid = "12345678"
     lateinit var invSdk: EInvoice
 
     private val invoiceList = ArrayList<InvoiceDetail>()
@@ -57,6 +58,7 @@ class MainActivity : AppCompatActivity() {
         setupListView()
 
         EventBus.getDefault().register(this)
+
     }
 
     private fun setupListView() {
@@ -79,7 +81,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupEInvSdk() {
-        invSdk = EInvoice(API_KEY)
+        invSdk = EInvoice(API_KEY, uuid)
         invSdk.enableLog = true
 
     }

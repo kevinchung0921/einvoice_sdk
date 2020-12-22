@@ -7,6 +7,7 @@ object Const {
     const val EINV_DETAIL_VERSION = "0.5"
     const val EINV_CARRIER_HEADER_VERSION = "0.5"
     const val EINV_CARRIER_DETAIL_VERSION = "0.5"
+    const val EINV_WINLIST_VERSION ="0.2"
 
 
     const val API_EINV_HOST = "https://api.einvoice.nat.gov.tw"
@@ -15,12 +16,9 @@ object Const {
 
     const val API_EINV_QUERY_BARCODE = "$API_EINV_HOST/PB2CAPIVAN/Carrier/AppGetBarcode"
 
-    const val API_EINV_REGISTER_BLANK =
-        "/PB2CAPIVAN/APIService/generalCarrierRegBlank"
-    const val API_EINV_CARRIER_BLANK =
-        "/PB2CAPIVAN/APIService/carrierLinkBlank"
-    const val API_EINV_BANK_BLINK =
-        "/PB2CAPIVAN/APIService/carrierBankAccBlank"
+    const val API_EINV_REGISTER_BLANK = "/PB2CAPIVAN/APIService/generalCarrierRegBlank"
+    const val API_EINV_CARRIER_BLANK = "/PB2CAPIVAN/APIService/carrierLinkBlank"
+    const val API_EINV_BANK_BLINK = "/PB2CAPIVAN/APIService/carrierBankAccBlank"
 
     const val EINV_ACT_GET_BARCODE = "getBarcode"
 
@@ -50,7 +48,7 @@ object Const {
     const val EINV_QRCODE = "QRCode"
     const val EINV_BARCODE = "Barcode"
     const val EINV_CARRIER = "Carrier"
-
+    const val RSP_WIN_INVO_YM = "invoYm"
 
 
 
@@ -69,8 +67,10 @@ object Const {
     const val EINV_AMOUNT = "amount"
 
 
+
     const val EINV_ACTION_CARRIER_HEADER = "carrierInvChk"
     const val EINV_ACTION_CARRIER_DETAIL = "carrierInvDetail"
+    const val EINV_ACTION_WIN_LIST = "QryWinningList"
 
     const val EINV_CARD_CARRIER_BARCODE = "3J0002"
     const val EINV_CARD_CARRIER_EASYCARD = "1K0001"

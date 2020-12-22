@@ -1,11 +1,24 @@
 package com.kevinchung.einvoice
 
 import android.util.Log
+import com.kevinchung.einvoice.Const.API_EINV_HOST
+import com.kevinchung.einvoice.Const.API_EINV_PAPER
+import com.kevinchung.einvoice.Const.EINV_ACTION
+import com.kevinchung.einvoice.Const.EINV_ACTION_WIN_LIST
+import com.kevinchung.einvoice.Const.EINV_APP_ID
+import com.kevinchung.einvoice.Const.EINV_INV_TERM
+import com.kevinchung.einvoice.Const.EINV_UUID
+import com.kevinchung.einvoice.Const.EINV_VERSION
+import com.kevinchung.einvoice.Const.EINV_WINLIST_VERSION
+import com.kevinchung.einvoice.Const.RSP_CODE
+import com.kevinchung.einvoice.Const.RSP_OK
 import com.kevinchung.einvoice.data.CarrierHeader
 import com.kevinchung.einvoice.data.Invoice
 import com.kevinchung.einvoice.data.InvoiceDetail
+import com.kevinchung.einvoice.data.WinList
 import com.kevinchung.einvoice.interfaces.CarrierHeadersListener
 import com.kevinchung.einvoice.interfaces.InvoiceDetailsListener
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -16,7 +29,8 @@ class EInvoice
  *               https://www.einvoice.nat.gov.tw/APCONSUMER/BTC605W/ if not have it yet
  */
     (
-        private var apiKey: String  // API key for access e-invoice service
+        private var apiKey: String,  // API key for access e-invoice service
+        private var uuid: String = "00000000"
     ) {
 
     companion object {
@@ -24,7 +38,6 @@ class EInvoice
         const val TIME_STAMP_OFFSET = 120
     }
 
-    var uuid = "00000000"
 
     // show debug log, default disable
     var enableLog = false
@@ -204,4 +217,92 @@ class EInvoice
         }
         return null
     }
+
+    /**
+     * Get win list
+     * @param term of win list
+     * @return InvoiceDetail object or null if fail
+     */
+
+    fun getWinList(term:String): WinList? {
+        try {
+            val apiService = EInvoiceApiService.createService(EInvApiInterface::class.java)
+            return apiService.getWinList(
+                term = term,
+                uuid = uuid,
+                appId = apiKey
+            ).execute().body()
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+            LOG.e("GetInvDetail Error :$e")
+        }
+        return null
+    }
+
+    private fun processWinListRsp(rsp: String?): WinList? {
+        if (rsp == null || rsp.trim { it <= ' ' } == "") return null
+        val json = JSONObject(rsp)
+        LOG.d("msg:$json")
+        if (json.getInt(RSP_CODE) == RSP_OK) {
+            return WinList(
+                v = json.optString("v"),
+                code = json.optInt("code"),
+                msg = json.optString("msg"),
+                invoYm = json.optString("invoYm"),
+                superPrizeNo = json.optString("superPrizeNo"),
+                spcPrizeNo = json.optString("spcPrizeNo"),
+                spcPrizeNo2 = json.optString("spcPrizeNo2"),
+                spcPrizeNo3 = json.optString("spcPrizeNo3"),
+                firstPrizeNo1 = json.optString("firstPrizeNo1"),
+                firstPrizeNo2 = json.optString("firstPrizeNo2"),
+                firstPrizeNo3 = json.optString("firstPrizeNo3"),
+                firstPrizeNo4 = json.optString("firstPrizeNo4"),
+                firstPrizeNo5 = json.optString("firstPrizeNo5"),
+                firstPrizeNo6 = json.optString("firstPrizeNo6"),
+                firstPrizeNo7 = json.optString("firstPrizeNo7"),
+                firstPrizeNo8 = json.optString("firstPrizeNo8"),
+                firstPrizeNo9 = json.optString("firstPrizeNo9"),
+                firstPrizeNo10 = json.optString("firstPrizeNo10"),
+                sixthPrizeNo1 = json.optString("sixthPrizeNo1"),
+                sixthPrizeNo2 = json.optString("sixthPrizeNo2"),
+                sixthPrizeNo3 = json.optString("sixthPrizeNo3"),
+                superPrizeAmt = json.optString("superPrizeAmt"),
+                spcPrizeAmt = json.optString("spcPrizeAmt"),
+                firstPrizeAmt = json.optString("firstPrizeAmt"),
+                secondPrizeAmt = json.optString("secondPrizeAmt"),
+                thirdPrizeAmt = json.optString("thirdPrizeAmt"),
+                fourthPrizeAmt = json.optString("fourthPrizeAmt"),
+                fifthPrizeAmt = json.optString("fifthPrizeAmt"),
+                sixthPrizeNo4 = json.optString("sixthPrizeNo4"),
+                sixthPrizeNo5 = json.optString("sixthPrizeNo5"),
+                sixthPrizeNo6 = json.optString("sixthPrizeNo6")
+            )
+        }
+        return null
+    }
+
+    fun getWinList1(term:String): WinList? {
+        var res:String?
+        var queryString = ""
+
+        queryString += "$EINV_VERSION=$EINV_WINLIST_VERSION&"
+        queryString += "$EINV_ACTION=$EINV_ACTION_WIN_LIST&"
+        queryString += "$EINV_INV_TERM=$term&"
+        queryString += "$EINV_UUID=$uuid&"
+        queryString += "$EINV_APP_ID=$apiKey"
+
+        try {
+            res = Utils.httpPost(
+                API_EINV_HOST+API_EINV_PAPER,
+                queryString
+            )
+            LOG.d("result:$res")
+            return processWinListRsp(res)
+        } catch (e: java.lang.Exception) {
+            LOG.e("Error :$e")
+        }
+
+        return null
+    }
+
 }

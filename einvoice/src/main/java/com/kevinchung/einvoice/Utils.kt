@@ -1,5 +1,9 @@
 package com.kevinchung.einvoice
 
+import okhttp3.MediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -8,11 +12,8 @@ import java.net.URL
 import java.security.SecureRandom
 import java.security.cert.CertificateException
 import java.security.cert.X509Certificate
-import javax.net.ssl.HostnameVerifier
-import javax.net.ssl.HttpsURLConnection
-import javax.net.ssl.SSLContext
-import javax.net.ssl.TrustManager
-import javax.net.ssl.X509TrustManager
+import java.util.concurrent.TimeUnit
+import javax.net.ssl.*
 
 object Utils {
 
@@ -48,6 +49,21 @@ object Utils {
         }
     }
 
+
+    @Throws(IOException::class)
+    fun okhttpPost(endpoint:String, queryString:String): String? {
+        try {
+            val client = OkHttpClient.Builder()
+                .readTimeout(10, TimeUnit.SECONDS)
+                .build()
+            val req: Request = Request.Builder().url("$endpoint?$queryString").post(RequestBody.create(
+                null, byteArrayOf())).build()
+            return client.newCall(req).execute().body()?.string()
+        } catch (e: java.lang.Exception) {
+            LOG.e("Error on send stuff data to server:$e")
+        }
+        return null
+    }
 
     /**
      *  Http post function
@@ -103,4 +119,5 @@ object Utils {
         }
         return null
     }
+
 }
