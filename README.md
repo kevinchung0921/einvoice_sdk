@@ -1,4 +1,4 @@
-[ ![Download](https://api.bintray.com/packages/kevinchung0921/Maven/einvoice_sdk/images/download.svg?version=1.3) ](https://bintray.com/kevinchung0921/Maven/einvoice_sdk/1.3/link)
+[![](https://jitpack.io/v/kevinchung0921/einvoice_sdk.svg)](https://jitpack.io/#kevinchung0921/einvoice_sdk)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## 電子發票 SDK
@@ -16,7 +16,7 @@
 
 ```groovy
 dependencies {
-    implementation 'com.kevinchung0921:einvoice:1.3'
+    implementation 'com.github.kevinchung0921:einvoice_sdk:v1.3'
 }
 ```
 ### 初始化
