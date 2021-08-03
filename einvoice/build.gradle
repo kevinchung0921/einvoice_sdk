@@ -1,9 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.bintray'
-
 
 android {
     signingConfigs {
@@ -49,18 +46,6 @@ dependencies {
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-    publications = ['myPublish']
-    configurations = ['archives']
-    pkg {
-        repo = "Maven"
-        name = "einvoice_sdk"
-        vcsUrl = "https://github.com/kevinchung0921/einvoice_sdk.git"
-        publish = true
-    }
-}
 
 group = 'com.kevinchung0921'
 version = '1.4'
@@ -70,49 +55,5 @@ task sourceJar(type: Jar) {
     classifier "sources"
 }
 
-publishing {
-    publications {
-        myPublish(MavenPublication) {
-            versionMapping {
-                usage('java-api') {
-                    fromResolutionOf('runtimeClasspath')
-                }
-                usage('java-runtime') {
-                    fromResolutionResult()
-                }
-            }
-            pom {
-                name = 'eInvoice SDK'
-                description = 'SDK for implement eInvoice app'
-                url = 'https://github.com/kevinchung0921/einvoice_sdk'
-
-                licenses {
-                    license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'kevinchung0921'
-                        name = 'Kevin Chung'
-                        email = 'kevinchung0921@gmail.com'
-                    }
-                }
-                scm {
-                    connection = 'scm:git:git://github.com/kevinchung0921/einvoice_sdk.git'
-                    developerConnection = 'scm:git:ssh://github.com/kevinchung0921/einvoice_sdk.git'
-                    url = 'https://github.com/kevinchung0921/einvoice_sdk'
-                }
-            }
-            artifact(sourceJar)
-        }
-    }
-    repositories {
-        maven {
-            url = "https://bintray.com/kevinchung0921/Maven/"
-        }
-    }
-}
 
 
